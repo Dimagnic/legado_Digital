@@ -4,7 +4,7 @@ import { Marco } from './app/Marco'
 import { ProveedorSesion, useSesion } from './app/Sesion'
 import type { Profile } from './lib/dominio'
 import { obtenerPerfil } from './lib/recuerdos'
-import { supabaseConfigurado } from './lib/supabase'
+import { supabaseConfigurado, urlConfigurada, urlValida } from './lib/supabase'
 import { BienvenidaPage } from './modules/auth/BienvenidaPage'
 import { PortadaPage } from './modules/auth/PortadaPage'
 import { RestablecerPage } from './modules/auth/RestablecerPage'
@@ -65,6 +65,11 @@ function SinConfigurar() {
   return (
     <main className="mx-auto max-w-xl px-6 py-16">
       <h1 className="text-3xl">Falta conectar Supabase</h1>
+      {urlConfigurada && !urlValida && (
+        <p className="mt-4 rounded-xl bg-terracota/10 p-4 text-terracota-hondo">
+          La variable <code>VITE_SUPABASE_URL</code> tiene <code>{urlConfigurada}</code>, pero debe ser la dirección de tu proyecto de Supabase, con la forma <code>https://xxxx.supabase.co</code>.
+        </p>
+      )}
       <p className="mt-4 text-tinta-suave">
         Copia <code>.env.example</code> como <code>.env.local</code> y escribe la URL de tu proyecto y la clave pública (anon o publishable). Nunca uses la clave <em>service_role</em> aquí.
       </p>

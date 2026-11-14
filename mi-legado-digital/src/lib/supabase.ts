@@ -6,8 +6,11 @@ const key = (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? import.meta.env.VI
   | string
   | undefined
 
-export const supabaseConfigurado = Boolean(url && key)
+/** La URL debe ser la del proyecto de Supabase (https://<id>.supabase.co), no la del sitio. */
+export const urlValida = Boolean(url && /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(url.trim()))
+export const supabaseConfigurado = Boolean(urlValida && key)
+export const urlConfigurada = url ?? ''
 
 export const supabase: SupabaseClient = supabaseConfigurado
-  ? createClient(url!, key!, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } })
+  ? createClient(url!.trim(), key!.trim(), { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } })
   : (null as unknown as SupabaseClient)
