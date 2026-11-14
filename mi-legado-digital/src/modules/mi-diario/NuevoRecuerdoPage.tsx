@@ -1,6 +1,8 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { AreaTexto, Aviso, Boton, Campo, Entrada, Titulo } from '../../design-system/ui'
+import { AreaTexto, Aviso, Boton, Campo, Entrada, Hoja, Titulo } from '../../design-system/ui'
+import { IconoCamara, IconoConversacion, IconoMicrofono, IconoPluma } from '../../design-system/Iconos'
+import { InsigniaTipo } from '../../design-system/tipos'
 import { TIPOS_RECUERDO, construirFecha, type DatePrecision, type LifeStage, type MemoryKind } from '../../lib/dominio'
 import { PREGUNTAS_ENTREVISTA, preguntaDelDia } from '../../lib/preguntas'
 import { crearRecuerdo, listarEtapas } from '../../lib/recuerdos'
@@ -66,18 +68,23 @@ export function NuevoRecuerdoPage() {
     }
   }
 
-  const modos: { id: Modo; nombre: string }[] = [
-    { id: 'escribir', nombre: 'Escribir' },
-    { id: 'voz', nombre: 'Hablar' },
-    { id: 'foto', nombre: 'Foto' },
-    { id: 'entrevista', nombre: 'Preguntarle a alguien' },
+  const modos = [
+    { id: 'escribir' as Modo, nombre: 'Escribir', Icono: IconoPluma },
+    { id: 'voz' as Modo, nombre: 'Hablar', Icono: IconoMicrofono },
+    { id: 'foto' as Modo, nombre: 'Una foto', Icono: IconoCamara },
+    { id: 'entrevista' as Modo, nombre: 'Preguntarle a alguien', Icono: IconoConversacion },
   ]
+  const Paso = ({ n, t }: { n: number; t: string }) => (
+    <p className="mb-5 flex items-center gap-3 font-serif text-[22px]"><span className="grid h-8 w-8 place-items-center rounded-full bg-tinta font-sans text-sm text-hoja">{n}</span>{t}</p>
+  )
 
   return (
-    <form onSubmit={guardar} className="aparecer mx-auto max-w-2xl space-y-8">
-      <Titulo sub="No tienes que ordenarlo antes. Cuéntalo como te salga; después puedes editarlo.">Guardar un momento</Titulo>
+    <form onSubmit={guardar} className="aparecer mx-auto max-w-3xl space-y-6">
+      <Titulo antetitulo="Nuevo recuerdo" sub="No tienes que ordenarlo antes. Cuéntalo como te salga; después puedes editarlo.">Guardar un momento</Titulo>
 
-      <div role="tablist" aria-label="Cómo quieres guardarlo" className="flex flex-wrap gap-2">
+      <Hoja>
+      <Paso n={1} t="¿Cómo quieres guardarlo?" />
+      <div role="tablist" aria-label="Cómo quieres guardarlo" className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {modos.map((m) => (
           <button
             key={m.id}
@@ -85,8 +92,9 @@ export function NuevoRecuerdoPage() {
             role="tab"
             aria-selected={modo === m.id}
             onClick={() => { setModo(m.id); if (m.id === 'entrevista' && !titulo) setTitulo('Conversación con ') }}
-            className={`rounded-full border px-4 py-2 text-sm ${modo === m.id ? 'border-tinta bg-tinta text-hoja' : 'border-linea bg-hoja text-tinta hover:bg-papel-hondo'}`}
+            className={`flex flex-col items-start gap-3 rounded-2xl border p-4 text-left text-[15px] font-medium transition-colors ${modo === m.id ? 'border-tinta bg-tinta text-hoja' : 'border-linea bg-papel/50 text-tinta hover:bg-papel-hondo'}`}
           >
+            <m.Icono size={24} />
             {m.nombre}
           </button>
         ))}
@@ -121,19 +129,29 @@ export function NuevoRecuerdoPage() {
         </Campo>
       )}
 
-      <fieldset className="space-y-3">
-        <legend className="text-sm font-medium">¿Qué es?</legend>
+      </Hoja>
+
+      <Hoja>
+      <Paso n={2} t="¿Qué es?" />
+      <fieldset>
+        <legend className="sr-only">¿Qué es?</legend>
         <div className="grid gap-2 sm:grid-cols-2">
           {(Object.keys(TIPOS_RECUERDO) as MemoryKind[]).map((k) => (
-            <label key={k} className={`cursor-pointer rounded-xl border p-3 ${kind === k ? 'border-terracota bg-terracota/5' : 'border-linea bg-hoja'}`}>
+            <label key={k} className={`flex cursor-pointer gap-3 rounded-2xl border p-3.5 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-terracota ${kind === k ? 'border-terracota bg-terracota-claro/50' : 'border-linea bg-papel/40 hover:bg-papel-hondo/60'}`}>
               <input type="radio" name="tipo" value={k} checked={kind === k} onChange={() => setKind(k)} className="sr-only" />
-              <span className="block font-medium">{TIPOS_RECUERDO[k].nombre}</span>
-              <span className="block text-sm text-tinta-suave">{TIPOS_RECUERDO[k].ayuda}</span>
+              <InsigniaTipo kind={k} size={38} />
+              <span>
+                <span className="block font-medium">{TIPOS_RECUERDO[k].nombre}</span>
+                <span className="block text-sm text-tinta-suave">{TIPOS_RECUERDO[k].ayuda}</span>
+              </span>
             </label>
           ))}
         </div>
       </fieldset>
+      </Hoja>
 
+      <Hoja className="space-y-7">
+      <Paso n={3} t="Cuéntalo" />
       <Campo etiqueta="Ponle un nombre">
         <Entrada value={titulo} onChange={(e) => setTitulo(e.target.value)} maxLength={160} placeholder={kind === 'recipe' ? 'El mole de la abuela' : 'El día que…'} required />
       </Campo>
@@ -168,11 +186,13 @@ export function NuevoRecuerdoPage() {
         </Campo>
       )}
 
+      </Hoja>
+
       {kind === 'reassurance' && <Aviso>Este mensaje queda sellado y privado. Por ahora solo tú lo ves; más adelante podrás elegir a quién y cuándo entregarlo.</Aviso>}
       {error && <Aviso tono="error">{error}</Aviso>}
 
-      <div className="flex items-center gap-3 border-t border-linea pt-6">
-        <Boton type="submit" disabled={!puedeGuardar || guardando}>{guardando ? 'Guardando…' : 'Guardar'}</Boton>
+      <div className="sticky bottom-24 z-10 flex items-center gap-3 rounded-full border border-linea bg-hoja/95 p-2 shadow-elevada backdrop-blur md:bottom-6">
+        <Boton type="submit" className="flex-1 sm:flex-none" disabled={!puedeGuardar || guardando}>{guardando ? 'Guardando…' : 'Guardar recuerdo'}</Boton>
         <Boton type="button" variante="texto" onClick={() => nav(-1)}>Cancelar</Boton>
       </div>
     </form>

@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Aviso, Boton, Campo, Entrada } from '../../design-system/ui'
 import { ETAPAS_SUGERIDAS } from '../../lib/dominio'
+import { Marca } from '../../design-system/Logo'
 import { completarBienvenida } from '../../lib/recuerdos'
 
 /** Tres preguntas suaves y omitibles. */
@@ -29,7 +30,8 @@ export function BienvenidaPage({ onListo }: { onListo: () => void }) {
     <main className="mx-auto max-w-xl px-6 py-14">
       <form onSubmit={continuar} className="aparecer space-y-8">
         <header>
-          <h1 className="text-[36px] leading-tight">Bienvenida, bienvenido</h1>
+          <Marca size={64} />
+          <h1 className="mt-6 text-[40px] leading-tight">Te damos la bienvenida</h1>
           <p className="mt-3 text-tinta-suave">Este es un lugar para tu historia. Todo lo de esta pantalla es opcional.</p>
         </header>
         <Campo etiqueta="¿Cómo te gusta que te llamen?">

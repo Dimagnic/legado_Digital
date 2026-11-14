@@ -22,7 +22,7 @@ export function BuscarPage() {
 
   return (
     <div className="aparecer">
-      <Titulo sub="Busca por palabras: un nombre, un lugar, una comida.">Buscar</Titulo>
+      <Titulo antetitulo="Encuentra" sub="Busca por palabras: un nombre, un lugar, una comida.">Buscar</Titulo>
       <form onSubmit={buscar} className="mb-6 flex gap-2">
         <Entrada value={texto} onChange={(e) => setTexto(e.target.value)} placeholder="Por ejemplo: mole, Oaxaca, mi papá" aria-label="Buscar en mis recuerdos" />
         <Boton type="submit">Buscar</Boton>

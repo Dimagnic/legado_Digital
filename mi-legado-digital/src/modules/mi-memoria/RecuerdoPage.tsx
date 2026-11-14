@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { AreaTexto, Aviso, Boton, Entrada, Hoja, Procedencia } from '../../design-system/ui'
+import { InsigniaTipo } from '../../design-system/tipos'
 import { TIPOS_RECUERDO, fechaHumana, tamanoHumano, type Memory } from '../../lib/dominio'
 import { editarRecuerdo, enlaceOriginal, obtenerRecuerdo, type Fuente } from '../../lib/recuerdos'
 
@@ -50,9 +51,10 @@ export function RecuerdoPage() {
   return (
     <article className="aparecer mx-auto max-w-2xl">
       <Link to="/diario" className="text-sm text-tinta-suave hover:text-terracota">← Mi Diario</Link>
-      <p className="mt-6 text-xs uppercase tracking-wide text-tinta-suave">
-        {TIPOS_RECUERDO[r.kind].nombre} · {fechaHumana(r.occurred_on, r.occurred_precision)}
-      </p>
+      <div className="mt-8 flex items-center gap-3">
+        <InsigniaTipo kind={r.kind} size={44} />
+        <p className="text-sm text-tinta-suave">{TIPOS_RECUERDO[r.kind].nombre} · {fechaHumana(r.occurred_on, r.occurred_precision)}</p>
+      </div>
       {editando ? (
         <div className="mt-3 space-y-4">
           <Entrada value={titulo} onChange={(e) => setTitulo(e.target.value)} maxLength={160} />
@@ -65,14 +67,14 @@ export function RecuerdoPage() {
         </div>
       ) : (
         <>
-          <h1 className="mt-2 text-4xl leading-tight">{r.title}</h1>
+          <h1 className="mt-5 text-[40px] leading-[1.08] md:text-[52px]">{r.title}</h1>
           <div className="mt-3 flex flex-wrap items-center gap-3">
             <Procedencia p={r.provenance} />
             {r.is_sealed && <span className="text-xs text-tinta-suave">Sellado · solo tú lo ves</span>}
             <Boton variante="texto" onClick={() => setEditando(true)}>Editar</Boton>
           </div>
           {originales.map((a) => <div key={a.id} className="mt-6"><Original f={a} /></div>)}
-          {r.story && <p className="mt-6 whitespace-pre-wrap font-serif text-[19px] leading-relaxed">{r.story}</p>}
+          {r.story && <p className="editorial mt-8 whitespace-pre-wrap first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:text-[64px] first-letter:leading-[0.9] first-letter:text-terracota">{r.story}</p>}
         </>
       )}
 

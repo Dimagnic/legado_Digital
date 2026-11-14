@@ -4,9 +4,9 @@ import { PROCEDENCIA, type Provenance } from '../lib/dominio'
 type Variante = 'principal' | 'suave' | 'texto'
 
 export function Boton({ variante = 'principal', className = '', ...p }: ButtonHTMLAttributes<HTMLButtonElement> & { variante?: Variante }) {
-  const base = 'inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-[15px] font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+  const base = 'inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[15px] font-medium transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed'
   const estilos: Record<Variante, string> = {
-    principal: 'bg-terracota text-hoja hover:bg-terracota-hondo',
+    principal: 'bg-terracota text-hoja shadow-[0_6px_16px_-8px_rgba(180,83,42,0.7)] hover:bg-terracota-hondo',
     suave: 'bg-hoja text-tinta border border-linea hover:bg-papel-hondo',
     texto: 'text-terracota hover:text-terracota-hondo px-2',
   }
@@ -23,7 +23,7 @@ export function Campo({ etiqueta, ayuda, children }: { etiqueta: string; ayuda?:
   )
 }
 
-const caja = 'w-full rounded-xl border border-linea bg-hoja px-4 py-3 text-[16px] text-tinta placeholder:text-tinta-suave/60 focus:border-terracota focus:outline-none'
+const caja = 'w-full rounded-2xl border border-linea bg-hoja px-4 py-3.5 text-[16px] text-tinta placeholder:text-tinta-suave/60 focus:border-terracota focus:outline-none'
 
 export function Entrada(p: InputHTMLAttributes<HTMLInputElement>) {
   return <input {...p} className={`${caja} ${p.className ?? ''}`} />
@@ -34,7 +34,7 @@ export function AreaTexto(p: TextareaHTMLAttributes<HTMLTextAreaElement>) {
 }
 
 export function Hoja({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <div className={`rounded-2xl border border-linea bg-hoja p-6 shadow-[0_1px_0_rgba(43,36,32,0.04)] ${className}`}>{children}</div>
+  return <div className={`rounded-3xl border border-linea/80 bg-hoja p-6 shadow-hoja md:p-8 ${className}`}>{children}</div>
 }
 
 export function Procedencia({ p }: { p: Provenance }) {
@@ -55,11 +55,15 @@ export function Aviso({ children, tono = 'info' }: { children: ReactNode; tono?:
   )
 }
 
-export function Titulo({ children, sub }: { children: ReactNode; sub?: ReactNode }) {
+export function Titulo({ children, sub, antetitulo, accion }: { children: ReactNode; sub?: ReactNode; antetitulo?: string; accion?: ReactNode }) {
   return (
-    <header className="mb-8">
-      <h1 className="text-[32px] leading-tight md:text-[40px]">{children}</h1>
-      {sub && <p className="mt-2 max-w-xl text-tinta-suave">{sub}</p>}
+    <header className="mb-10 flex flex-wrap items-end justify-between gap-4">
+      <div>
+        {antetitulo && <p className="etiqueta mb-3 text-terracota">{antetitulo}</p>}
+        <h1 className="text-[36px] leading-[1.05] md:text-[52px]">{children}</h1>
+        {sub && <p className="mt-3 max-w-xl text-[17px] text-tinta-suave">{sub}</p>}
+      </div>
+      {accion}
     </header>
   )
 }

@@ -22,19 +22,19 @@ export function HistoriaPage() {
 
   return (
     <div className="aparecer">
-      <Titulo sub="Tu vida ordenada como tú la dividiste. Las fechas muestran solo lo que recuerdas con certeza.">Mi Historia</Titulo>
+      <Titulo antetitulo="Tu línea de vida" sub="Tu vida ordenada como tú la dividiste. Las fechas muestran solo lo que recuerdas con certeza.">Mi Historia</Titulo>
       {grupos.length === 0 && <p className="text-tinta-suave">Cuando guardes recuerdos, aquí irá apareciendo el hilo de tu vida.</p>}
-      <ol className="relative space-y-12 border-l border-linea pl-8">
+      <ol className="relative space-y-14 border-l-2 border-dashed border-linea pl-10">
         {grupos.map((g) => (
           <li key={g.id}>
-            <span aria-hidden className="absolute -left-[5px] mt-3 h-2.5 w-2.5 rounded-full bg-terracota" />
-            <h2 className="text-2xl">{g.nombre}</h2>
+            <span aria-hidden className="absolute -left-[9px] mt-2.5 h-4 w-4 rounded-full border-4 border-papel bg-terracota" />
+            <h2 className="text-[30px]">{g.nombre}</h2>
             <ul className="mt-4 space-y-4">
               {g.items.map((r) => (
                 <li key={r.id}>
                   <Link to={`/recuerdo/${r.id}`} className="group block">
                     <span className="text-sm text-tinta-suave">{fechaHumana(r.occurred_on, r.occurred_precision)}</span>
-                    <span className="block font-serif text-lg group-hover:text-terracota">{r.title}</span>
+                    <span className="block font-serif text-[20px] group-hover:text-terracota">{r.title}</span>
                   </Link>
                 </li>
               ))}

@@ -46,7 +46,7 @@ export function PrivacidadPage() {
 
   return (
     <div className="aparecer mx-auto max-w-2xl space-y-6">
-      <Titulo sub="Lo que es tuyo sigue siendo tuyo. Aquí ves qué hacemos con tus datos y decides.">Tu privacidad</Titulo>
+      <Titulo antetitulo="Tus datos, tus reglas" sub="Lo que es tuyo sigue siendo tuyo. Aquí ves qué hacemos con tus datos y decides.">Tu privacidad</Titulo>
 
       <Hoja>
         <h2 className="text-xl">Qué guardamos y dónde</h2>
