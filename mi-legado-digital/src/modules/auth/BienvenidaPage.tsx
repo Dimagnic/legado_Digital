@@ -5,8 +5,8 @@ import { Marca } from '../../design-system/Logo'
 import { completarBienvenida } from '../../lib/recuerdos'
 
 /** Tres preguntas suaves y omitibles. */
-export function BienvenidaPage({ onListo }: { onListo: () => void }) {
-  const [nombre, setNombre] = useState('')
+export function BienvenidaPage({ onListo, nombreInicial = '' }: { onListo: () => void; nombreInicial?: string }) {
+  const [nombre, setNombre] = useState(nombreInicial)
   const [anio, setAnio] = useState('')
   const [etapas, setEtapas] = useState<string[]>(ETAPAS_SUGERIDAS)
   const [nueva, setNueva] = useState('')

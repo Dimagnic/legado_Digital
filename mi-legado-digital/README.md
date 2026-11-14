@@ -13,8 +13,8 @@ Plataforma para preservar la historia de una vida con su propia voz. Esta es la 
 2. **Conecta Supabase.** Copia `.env.example` como `.env.local` y pega la **clave pública** de tu proyecto
    (Supabase → Project Settings → API Keys → `anon public` o `publishable`).
    Nunca pongas la clave `service_role` en este archivo.
-3. **Crea la base de datos.** Abre Supabase → SQL Editor, pega el contenido de
-   `supabase/migrations/20261114000001_fundacion.sql` y ejecútalo una sola vez.
+3. **Crea la base de datos.** Abre Supabase → SQL Editor y ejecuta, en orden y una sola vez cada uno:
+   `supabase/migrations/20261114000001_fundacion.sql` y `supabase/migrations/20261114000002_suscripciones.sql`.
    (Con Supabase CLI: `supabase link --project-ref bzlczgauiydgufwfdhwx` y luego `supabase db push`.)
 4. **Configura el inicio de sesión.** Supabase → Authentication → URL Configuration:
    *Site URL* `http://localhost:5173` y agrega la misma en *Redirect URLs*. Cuando publiques, agrega tu dominio.
@@ -27,7 +27,11 @@ Plataforma para preservar la historia de una vida con su propia voz. Esta es la 
 
 | Función | Estado |
 | --- | --- |
+| Portada pública con modal de acceso (crear cuenta, entrar, regresar) | Listo |
+| Contraseña: crear, entrar, olvidé mi contraseña, restablecer, cambiar | Listo |
 | Entrar con enlace mágico por correo | Listo |
+| Planes Semilla / Mi Historia / Familia, límite de almacenamiento, solo lectura | Listo |
+| Cobro en línea (Stripe o Mercado Pago) | **Pendiente** – falta elegir procesador |
 | Bienvenida con etapas de vida configurables | Listo |
 | Mi Espacio con pregunta del día | Listo |
 | Guardar un momento: escribir, hablar (grabación), foto | Listo |

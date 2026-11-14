@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { Marco } from './app/Marco'
 import { ProveedorSesion, useSesion } from './app/Sesion'
 import type { Profile } from './lib/dominio'
 import { obtenerPerfil } from './lib/recuerdos'
 import { supabaseConfigurado } from './lib/supabase'
 import { BienvenidaPage } from './modules/auth/BienvenidaPage'
-import { EntrarPage } from './modules/auth/EntrarPage'
+import { PortadaPage } from './modules/auth/PortadaPage'
+import { RestablecerPage } from './modules/auth/RestablecerPage'
+import { CuentaPage } from './modules/cuenta/CuentaPage'
+import { PlanesPage } from './modules/cuenta/PlanesPage'
 import { BuscarPage } from './modules/buscar/BuscarPage'
 import { DiarioPage } from './modules/mi-diario/DiarioPage'
 import { NuevoRecuerdoPage } from './modules/mi-diario/NuevoRecuerdoPage'
@@ -21,6 +24,8 @@ function Espera() {
 
 function Rutas() {
   const { sesion, cargando } = useSesion()
+  const { pathname } = useLocation()
+  const navegar = useNavigate()
   const [perfil, setPerfil] = useState<Profile | null | undefined>(undefined)
 
   const cargarPerfil = useCallback(() => {
@@ -33,9 +38,10 @@ function Rutas() {
   }, [sesion, cargarPerfil])
 
   if (cargando) return <Espera />
-  if (!sesion) return <EntrarPage />
+  if (pathname === '/restablecer') return <RestablecerPage conSesion={Boolean(sesion)} onListo={() => navegar('/', { replace: true })} />
+  if (!sesion) return <PortadaPage />
   if (perfil === undefined) return <Espera />
-  if (!perfil?.onboarded_at) return <BienvenidaPage onListo={cargarPerfil} />
+  if (!perfil?.onboarded_at) return <BienvenidaPage nombreInicial={perfil?.display_name ?? ''} onListo={cargarPerfil} />
 
   return (
     <Routes>
@@ -47,6 +53,8 @@ function Rutas() {
         <Route path="historia" element={<HistoriaPage />} />
         <Route path="buscar" element={<BuscarPage />} />
         <Route path="privacidad" element={<PrivacidadPage />} />
+        <Route path="planes" element={<PlanesPage />} />
+        <Route path="cuenta" element={<CuentaPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

@@ -1,6 +1,7 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
-import { IconoCandado, IconoCasa, IconoHilo, IconoLibro, IconoLupa, IconoMas } from '../design-system/Iconos'
-import { Logo, Marca } from '../design-system/Logo'
+import { IconoCandado, IconoCasa, IconoHilo, IconoLibro, IconoLupa, IconoMas, IconoUsuario } from '../design-system/Iconos'
+import { Logo } from '../design-system/Logo'
+import { Pie } from '../design-system/Pie'
 
 const DESTINOS = [
   { a: '/', nombre: 'Mi Espacio', corto: 'Inicio', Icono: IconoCasa },
@@ -12,7 +13,7 @@ const DESTINOS = [
 
 export function Marco() {
   return (
-    <div className="flex min-h-dvh flex-col pb-28 md:pb-0">
+    <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-20 border-b border-linea/60 bg-papel/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-3.5 md:px-8">
           <Link to="/" aria-label="Mi Legado Digital, inicio" className="shrink-0">
@@ -27,12 +28,14 @@ export function Marco() {
               </NavLink>
             ))}
           </nav>
-          <Link to="/privacidad" aria-label="Privacidad" className="grid h-10 w-10 place-items-center rounded-full border border-linea bg-hoja text-tinta-suave md:hidden">
-            <IconoCandado size={19} />
+          <div className="flex items-center gap-2">
+          <Link to="/cuenta" aria-label="Mi cuenta" className="grid h-10 w-10 place-items-center rounded-full border border-linea bg-hoja text-tinta-suave hover:text-tinta">
+            <IconoUsuario size={19} />
           </Link>
           <Link to="/nuevo" className="hidden items-center gap-2 rounded-full bg-terracota px-5 py-2.5 text-sm font-medium text-hoja shadow-[0_6px_16px_-8px_rgba(180,83,42,0.7)] hover:bg-terracota-hondo md:inline-flex">
             <IconoMas size={18} /> Guardar un momento
           </Link>
+          </div>
         </div>
         {/* navegación de tableta */}
         <nav aria-label="Secciones" className="mx-auto hidden max-w-6xl gap-1 px-8 pb-3 md:flex lg:hidden">
@@ -49,12 +52,7 @@ export function Marco() {
         <Outlet />
       </main>
 
-      <footer className="mt-10 hidden border-t border-linea/70 md:block">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-8 py-8 text-sm text-tinta-suave">
-          <span className="flex items-center gap-3"><Marca size={22} /> Una vida. Una historia. Una huella que merece permanecer.</span>
-          <span>Tus recuerdos son tuyos · Nada se borra por falta de pago</span>
-        </div>
-      </footer>
+      <Pie />
 
       {/* Barra inferior en celular, con el botón central para guardar */}
       <nav aria-label="Principal" className="fixed inset-x-3 bottom-3 z-20 rounded-[28px] border border-linea/80 bg-hoja/95 px-2 pb-[max(env(safe-area-inset-bottom),6px)] pt-1.5 shadow-elevada backdrop-blur-md md:hidden">

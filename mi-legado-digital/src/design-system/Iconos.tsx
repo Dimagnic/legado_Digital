@@ -27,3 +27,16 @@ export const IconoOnda = (p: P) => <Base {...p}><path d="M4 12h1.5M8 8v8M11 5v14
 export const IconoHoja = (p: P) => <Base {...p}><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14" /><path d="M5 19 13 11" /></Base>
 export const IconoFlecha = (p: P) => <Base {...p}><path d="M5 12h14M13 6l6 6-6 6" /></Base>
 export const IconoCorazon = (p: P) => <Base {...p}><path d="M12 19s-7-4.4-7-9.5A3.8 3.8 0 0 1 12 7.3a3.8 3.8 0 0 1 7 2.2C19 14.6 12 19 12 19Z" /></Base>
+export const IconoX = (p: P) => <Base {...p}><path d="M6 6l12 12M18 6 6 18" /></Base>
+export const IconoCorreo = (p: P) => <Base {...p}><rect x="3.5" y="5.5" width="17" height="13" rx="2" /><path d="m4.5 7 7.5 6 7.5-6" /></Base>
+export const IconoUsuario = (p: P) => <Base {...p}><circle cx="12" cy="8.5" r="3.5" /><path d="M5 19.5c1.2-3.3 3.8-5 7-5s5.8 1.7 7 5" /></Base>
+export const IconoCheck = (p: P) => <Base {...p}><path d="m5 12.5 4.5 4.5L19 7.5" /></Base>
+export function IconoOjo({ tachado = false, ...p }: P & { tachado?: boolean }) {
+  return (
+    <Base {...p}>
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+      <circle cx="12" cy="12" r="3" />
+      {tachado && <path d="M4 4l16 16" />}
+    </Base>
+  )
+}
