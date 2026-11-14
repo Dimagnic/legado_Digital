@@ -118,9 +118,15 @@ export function Pie({ publico = false, onEntrar }: { publico?: boolean; onEntrar
           <div className="mt-6 flex flex-wrap items-center justify-between gap-5">
             <p className="text-sm text-papel/75">© {new Date().getFullYear()} Mi Legado Digital</p>
             {!publico && <Link to="/privacidad" className="text-sm text-papel/75 underline underline-offset-4 hover:text-papel">Aviso de privacidad</Link>}
-            <span className="inline-flex items-center gap-3 rounded-full bg-hoja py-2 pl-5 pr-4 text-sm text-tinta">
-              Diseñado por <img src="/cero-mas.png" alt="Cero+" className="h-6 w-auto" />
-            </span>
+            <a
+              href="https://cero-new-generation-e19z.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Diseñado por Cero+ (abre en una pestaña nueva)"
+              className="inline-flex items-center gap-3 rounded-full bg-hoja py-2 pl-5 pr-4 text-sm text-tinta transition-transform hover:-translate-y-0.5 hover:shadow-elevada"
+            >
+              Diseñado por <img src="/cero-mas.png" alt="" className="h-6 w-auto" />
+            </a>
           </div>
         </div>
       </div>
