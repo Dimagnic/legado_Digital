@@ -9,7 +9,15 @@ export function mensajeAuth(error: { message?: string; code?: string } | null): 
   if (m.includes('weak') || m.includes('password should')) return 'La contraseña es muy débil. Usa al menos 8 caracteres con letras y números.'
   if (m.includes('rate limit') || m.includes('over_email_send_rate_limit')) return 'Hiciste varios intentos seguidos. Espera un minuto y vuelve a intentar.'
   if (m.includes('same_password') || m.includes('different from the old')) return 'La nueva contraseña debe ser distinta a la anterior.'
-  return 'Algo salió mal. Revisa tu conexión e inténtalo de nuevo.'
+  if (m.includes('not authorized') || m.includes('email_address_not_authorized'))
+    return 'Por ahora no podemos enviar correos a esa dirección. Estamos activando el envío de correos; inténtalo más tarde.'
+  if (m.includes('sending') && m.includes('email')) return 'No pudimos enviarte el correo de confirmación. Inténtalo de nuevo en unos minutos.'
+  if (m.includes('database error')) return 'No pudimos crear tu cuenta por un problema de nuestro lado. Ya quedó registrado; inténtalo más tarde.'
+  if (m.includes('invalid api key') || m.includes('no api key')) return 'La aplicación no está bien conectada al servidor. Avísanos para corregirlo.'
+  if (m.includes('failed to fetch') || m.includes('network')) return 'No hay conexión con el servidor. Revisa tu internet e inténtalo de nuevo.'
+  if (m.includes('signup') && m.includes('disabled')) return 'El registro de cuentas nuevas está pausado por el momento.'
+  if (error?.message) console.error('[auth]', error.code, error.message) // detalle para soporte, sin datos personales
+  return `Algo salió mal (${error?.code || error?.message?.slice(0, 60) || 'sin detalle'}). Inténtalo de nuevo.`
 }
 
 /** Requisitos mínimos de contraseña, mostrados en vivo. */
